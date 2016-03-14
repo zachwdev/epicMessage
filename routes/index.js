@@ -1,9 +1,24 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+    indexRouter = express.Router(),
+    mongodb = require('mongodb').MongoClient;
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+var router = function () {
+    indexRouter.route('/')
+        .get(function (req, res) {
+            var url = 'mongodb://localhost:27017/message';
+            mongodb.connect(url, function (err, db) {
+                var collection = db.collection('message');
+                collection.find({}).toArray(function (err, results) {
+                    res.render('index', {
+                        message: results
+                    });
+                });
+            });
+        });
+    
+
+    return indexRouter;
+}
 
 module.exports = router;

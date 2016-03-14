@@ -1,5 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1(style='color:#{message[0].textColor}') #{message[0].message}
+  div(class='form')
+    form(action='/message', method='post')
+        input(type='text', name='messageInput', placeholder='Enter your epic message here')
+        p Text Color:
+        input(type='color', value='#ff0000', name='textColor')
+        p Background Color:
+        input(type='color', value='#ffffff', name='backgroundColor')
+        input(type='submit', value='Send your message to the world')
+    
